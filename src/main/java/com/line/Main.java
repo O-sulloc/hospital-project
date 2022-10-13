@@ -14,10 +14,13 @@ public class Main {
 
         System.out.println(hospitals.size());
         for(Hospital hospital : hospitals){
+            /*
             System.out.printf("%s,%s,%s,%s,%d,%s,%s\n",
                     hospital.getId(), hospital.getAddress(), hospital.getDistrict(),
                     hospital.getCategory(), hospital.getEmergencyRoom(), hospital.getName(),
                     hospital.getSubdivision());
+             */
+            System.out.println(hospital.getSqlInsertQuery());
         }
     }
 }

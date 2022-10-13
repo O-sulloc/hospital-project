@@ -54,4 +54,23 @@ class HospitalParserTest {
         );
     }
 
+    @Test
+    @DisplayName("insert쿼리 잘 만드는지 TEST")
+    void makeSqlQueryTest(){
+        HospitalParser hp = new HospitalParser();
+        Hospital hospital = hp.parse(this.str3);
+        String sql = "insert into `likelion-db`.`seoul_hospital` \n" +
+                "(`id`,`address`,`district`,`category`,`emergency_room`,`name`,`subdivision`)\n" +
+                "VALUES\n" +
+                "(\"A1117873\",\n" +
+                "\"서울특별시 관악구 신원로 38 5층 (신림동 청암빌딩)\",\n" +
+                "\"서울특별시 관악구\",\n" +
+                "\"N\",\n" +
+                "2,\n" +
+                "\"가로수치과의원\",\n" +
+                "\"치과\");";
+        Assertions.assertEquals(sql, hospital.getSqlInsertQuery());
+
+    }
+
 }

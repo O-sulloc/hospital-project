@@ -9,8 +9,23 @@ public class Hospital {
     private String name; //가산기대찬병원
     private String subdivision;
 
-    private String replaceAll(String str){
-        return str.replaceAll("\"","");
+    public String getSqlInsertQuery() {
+        String sql = String.format("insert into `likelion-db`.`seoul_hospital` \n" +
+                "(`id`,`address`,`district`,`category`,`emergency_room`,`name`,`subdivision`)\n" +
+                "VALUES\n" +
+                "(\"%s\",\n" +
+                "\"%s\",\n" +
+                "\"%s\",\n" +
+                "\"%s\",\n" +
+                "%d,\n" +
+                "\"%s\",\n" +
+                "\"%s\");", this.id, this.address, this.district, this.category, this.emergencyRoom, this.name, this.subdivision);
+
+        return sql;
+    }
+
+    private String replaceAll(String str) {
+        return str.replaceAll("\"", "");
     }
 
     public Hospital(String id, String address) {
@@ -28,9 +43,9 @@ public class Hospital {
         this.setDistrict();
     }
 
-    public void setDistrict(){
+    public void setDistrict() {
         // address를 잘라서 district에 넣음
-        String[] splitted=this.address.split(" ");
+        String[] splitted = this.address.split(" ");
         this.district = splitted[0] + " " + splitted[1]; //서울특별시 금천구
     }
 
