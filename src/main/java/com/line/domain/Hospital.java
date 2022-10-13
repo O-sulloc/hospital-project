@@ -24,6 +24,15 @@ public class Hospital {
         return sql;
     }
 
+    public String getTupleString() {
+        String sql = String.format(
+                "(\"%s\"," + "\"%s\"," + "\"%s\"," +
+                        "\"%s\"," + "%d," + "\"%s\"," + "\"%s\");",
+                this.id, this.address, this.district, this.category, this.emergencyRoom, this.name, this.subdivision);
+
+        return "";
+    }
+
     private String replaceAll(String str) {
         return str.replaceAll("\"", "");
     }

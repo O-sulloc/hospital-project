@@ -2,9 +2,7 @@ package com.line;
 
 import com.line.parser.Parser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,12 +28,29 @@ public class FileController<T> {
             br.readLine();
         }
 
-        while((str = br.readLine()) != null){
+        while ((str = br.readLine()) != null) {
             System.out.println(str);
             result.add(parser.parse(str));
         }
         return result;
     }
 
+    public void createNewFile(String filename) throws IOException {
+        File file = new File(filename);
+        file.createNewFile();
+
+        System.out.println("파일 만들어 짐?" + file.exists());
+    }
+
+    public void writeLines(List<String> lines, String filename) throws IOException {
+        File file = new File(filename);
+        FileWriter fw = new FileWriter(file);
+        for(int i=0;i<lines.size();i++){
+            fw.write(lines.get(i) + "\n");
+        }
+        fw.flush();
+        fw.close();
+        System.out.println("success");
+    }
 
 }

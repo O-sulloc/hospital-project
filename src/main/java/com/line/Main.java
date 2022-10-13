@@ -4,6 +4,7 @@ import com.line.domain.Hospital;
 import com.line.parser.HospitalParser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -13,6 +14,8 @@ public class Main {
         List<Hospital> hospitals = hospitalFileController.readLines(filename);
 
         System.out.println(hospitals.size());
+        List<String> lines = new ArrayList<>();
+
         for(Hospital hospital : hospitals){
             /*
             System.out.printf("%s,%s,%s,%s,%d,%s,%s\n",
@@ -20,7 +23,14 @@ public class Main {
                     hospital.getCategory(), hospital.getEmergencyRoom(), hospital.getName(),
                     hospital.getSubdivision());
              */
-            System.out.println(hospital.getSqlInsertQuery());
+
+            //System.out.println(hospital.getSqlInsertQuery());
+
+            lines.add(hospital.getSqlInsertQuery()); //파일에 쿼리문 넣기
         }
+        String sqlFilename = "hospital_insert.sql";
+        hospitalFileController.createNewFile(sqlFilename);
+        hospitalFileController.writeLines(lines, sqlFilename);
+
     }
 }
