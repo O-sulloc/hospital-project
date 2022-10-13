@@ -3,7 +3,6 @@ package com.line;
 import com.line.parser.Parser;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,12 +11,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineReader<T> {
+public class FileController<T> {
     Parser<T> parser;
 
     boolean isRemoveColumnName = true; //행제목 날릴지 안 날릴지
 
-    public LineReader(Parser<T> parser) {
+    public FileController(Parser<T> parser) {
         this.parser = parser;
     }
 

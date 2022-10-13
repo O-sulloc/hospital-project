@@ -1,12 +1,12 @@
 package com.line.domain;
 
 public class Hospital {
-    private String id;
-    private String address;
-    private String district;
-    private String category;
-    private Integer emergencyRoom;
-    private String name;
+    private String id; //A1120837
+    private String address; //서울특별시 금천구 벚꽃로 286 삼성리더스타워 111~114호 (가산동)
+    private String district; //서울특별시 금천구
+    private String category; //C
+    private Integer emergencyRoom; //2
+    private String name; //가산기대찬병원
     private String subdivision;
 
     private String replaceAll(String str){
@@ -61,4 +61,5 @@ public class Hospital {
     public String getSubdivision() {
         return subdivision;
     }
+
 }
