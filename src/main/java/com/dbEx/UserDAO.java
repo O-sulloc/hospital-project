@@ -4,6 +4,8 @@ import com.dbEx.domain.UserVO;
 import com.mysql.cj.protocol.Resultset;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
@@ -31,7 +33,7 @@ public class UserDAO {
 
     }
 
-    public UserVO getUser(String id) throws SQLException, ClassNotFoundException {
+    public UserVO getUserOne(String id) throws SQLException, ClassNotFoundException {
         Map<String, String> env = System.getenv();
         String dbHost = env.get("DB_HOST");
         String dbUser = env.get("DB_USER");
@@ -41,7 +43,7 @@ public class UserDAO {
         Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
 
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM users where id=?");
-        ps.setString(1,id);
+        ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
         rs.next();
@@ -54,12 +56,36 @@ public class UserDAO {
         return user;
     }
 
+    public List<UserVO> getUserAll() throws SQLException, ClassNotFoundException {
+        DBConnection db = new DBConnection();
+
+        PreparedStatement ps = db.makeConnection().prepareStatement("SELECT * FROM users");
+        ResultSet rs = ps.executeQuery();
+
+        List<UserVO> userList = new ArrayList<>();
+        while (rs.next()) {
+            UserVO user = new UserVO(rs.getString("id"), rs.getString("name"), rs.getString("password"));
+            userList.add(user);
+        }
+
+        return userList;
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         //userDAO.add();
 
-        userDAO.getUser("idtest");
-        UserVO user = userDAO.getUser("idtest");
-        System.out.println(user.getName());
+        //userDAO.getUserOne("idtest");
+        //UserVO user = userDAO.getUserOne("idtest");
+        //System.out.println(user.getName());
+
+        List<UserVO> userList = new ArrayList<>();
+        userList = userDAO.getUserAll();
+
+        for (UserVO userVO : userList) {
+            System.out.println(userVO.getName());
+            System.out.println(userVO.getId());
+            System.out.println(userVO.getPassword());
+        }
     }
 }
