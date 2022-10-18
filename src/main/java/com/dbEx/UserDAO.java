@@ -1,7 +1,6 @@
 package com.dbEx;
 
-import com.dbEx.domain.UserVO;
-import com.mysql.cj.protocol.Resultset;
+import com.dbEx.userVO.UserVO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,11 +16,14 @@ public class UserDAO {
         String dbPassword = env.get("DB_PASSWORD");
 
         Class.forName("com.mysql.cj.jdbc.Driver");
+        //드라이버를 메모리에 로딩하는 과정. 생략 가능
+
         Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
 
         PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO users(id, name, password) VALUES (?,?,?)"
         );
+
         ps.setString(1, "idtest");
         ps.setString(2, "nametest");
         ps.setString(3, "pwtest");
@@ -42,7 +44,7 @@ public class UserDAO {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
 
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM users where id=?");
+        PreparedStatement ps = conn.prepareStatement("SELECT id, name, password FROM users where id=?");
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
@@ -76,9 +78,10 @@ public class UserDAO {
         //userDAO.add();
 
         //userDAO.getUserOne("idtest");
-        //UserVO user = userDAO.getUserOne("idtest");
-        //System.out.println(user.getName());
+        UserVO user = userDAO.getUserOne("idtest");
+        System.out.println(user.getName());
 
+        /*
         List<UserVO> userList = new ArrayList<>();
         userList = userDAO.getUserAll();
 
@@ -87,5 +90,6 @@ public class UserDAO {
             System.out.println(userVO.getId());
             System.out.println(userVO.getPassword());
         }
+         */
     }
 }
