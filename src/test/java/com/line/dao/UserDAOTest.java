@@ -12,14 +12,14 @@ class UserDAOTest {
 
     @Test
     void insertAndSelect() throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+        UserDAOAbstract userDAO = new AWSUserDAOImpl();
 
-        UserVO userVO = new UserVO("JunitId2", "JunitName2", "JunitPw2");
+        UserVO userVO = new UserVO("JunitId3", "JunitName3", "JunitPw3");
 
         userDAO.add(userVO);
         Assertions.assertEquals(1, 1);
 
-        UserVO userOne = userDAO.getUserOne("JunitId2");
-        Assertions.assertEquals("JunitName2", userOne.getName());
+        UserVO userOne = userDAO.getUserOne("JunitId3");
+        Assertions.assertEquals("JunitName3", userOne.getName());
     }
 }

@@ -7,22 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserDAO {
-    private Connection makeConnection() throws SQLException {
-        //public -> private
-        Map<String, String> env = System.getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbId = env.get("DB_ID");
-        String dbPw = env.get("DB_PW");
-
-        Connection conn = DriverManager.getConnection(dbHost, dbId, dbPw);
-
-        return conn;
-    }
+public abstract class UserDAOAbstract {
+    public abstract Connection makeConnection() throws ClassNotFoundException, SQLException;
 
     public void add(UserVO userVO) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        Connection conn = userDAO.makeConnection();
+
+        Connection conn = makeConnection();
 
         PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO users(id, name, password) VALUES (?,?,?)"
@@ -40,13 +30,7 @@ public class UserDAO {
     }
 
     public UserVO getUserOne(String id) throws SQLException, ClassNotFoundException {
-        Map<String, String> env = System.getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbUser = env.get("DB_USER");
-        String dbPassword = env.get("DB_PASSWORD");
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
+        Connection conn = makeConnection();
 
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM users where id=?");
         ps.setString(1, id);
@@ -63,9 +47,13 @@ public class UserDAO {
     }
 
     public List<UserVO> getUserAll() throws SQLException, ClassNotFoundException {
-        DBConnection db = new DBConnection();
+        //DBConnection db = new DBConnection();
+        //PreparedStatement ps = db.makeConnection().prepareStatement("SELECT * FROM users");
+        // 클래스로 분리한거 불러와서 써본거
 
-        PreparedStatement ps = db.makeConnection().prepareStatement("SELECT * FROM users");
+        Connection conn = makeConnection(); //추상클래스에서 불러온 것
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM users");
+
         ResultSet rs = ps.executeQuery();
 
         List<UserVO> userList = new ArrayList<>();
@@ -78,12 +66,12 @@ public class UserDAO {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
+        //UserDAOAbstract userDAO = new UserDAOAbstract();
         //userDAO.add(new UserVO("bujjaf","kjh","12341234"));
 
         //userDAO.getUserOne("idtest");
-        UserVO user = userDAO.getUserOne("idtest");
-        System.out.println(user.getName());
+        //UserVO user = userDAO.getUserOne("idtest");
+        //System.out.println(user.getName());
 
         /*
         List<UserVO> userList = new ArrayList<>();
