@@ -1,4 +1,4 @@
-package com.dbEx;
+package com.line.dao;
 
 import com.dbEx.userVO.UserVO;
 
@@ -44,7 +44,7 @@ public class UserDAO {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
 
-        PreparedStatement ps = conn.prepareStatement("SELECT id, name, password FROM users where id=?");
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM users where id=?");
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
@@ -75,11 +75,11 @@ public class UserDAO {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        userDAO.add(new UserVO("bujjaf","kjh","12341234"));
+        //userDAO.add(new UserVO("bujjaf","kjh","12341234"));
 
         //userDAO.getUserOne("idtest");
-        //UserVO user = userDAO.getUserOne("idtest");
-        //System.out.println(user.getName());
+        UserVO user = userDAO.getUserOne("idtest");
+        System.out.println(user.getName());
 
         /*
         List<UserVO> userList = new ArrayList<>();
