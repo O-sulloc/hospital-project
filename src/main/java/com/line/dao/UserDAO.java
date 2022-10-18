@@ -8,21 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
-    private Connection makeConnection() throws SQLException {
-        //public -> private
-        Map<String, String> env = System.getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbId = env.get("DB_ID");
-        String dbPw = env.get("DB_PW");
-
-        Connection conn = DriverManager.getConnection(dbHost, dbId, dbPw);
-
-        return conn;
-    }
+    private AwsConnectionMaker awsConnectionMaker = new AwsConnectionMaker();
 
     public void add(UserVO userVO) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        Connection conn = userDAO.makeConnection();
+        Connection conn = awsConnectionMaker.makeConnection();
 
         PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO users(id, name, password) VALUES (?,?,?)"
@@ -40,13 +30,7 @@ public class UserDAO {
     }
 
     public UserVO getUserOne(String id) throws SQLException, ClassNotFoundException {
-        Map<String, String> env = System.getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbUser = env.get("DB_USER");
-        String dbPassword = env.get("DB_PASSWORD");
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword); //mysql db와 연결
+        Connection conn = awsConnectionMaker.makeConnection();
 
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM users where id=?");
         ps.setString(1, id);
