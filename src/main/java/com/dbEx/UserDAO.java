@@ -10,7 +10,7 @@ import java.util.Map;
 public class UserDAO {
 
     public void add() throws SQLException, ClassNotFoundException {
-        Map<String, String> env = System.getenv();
+        Map<String, String> env = System.getenv(); //환경변수
         String dbHost = env.get("DB_HOST");
         String dbUser = env.get("DB_USER");
         String dbPassword = env.get("DB_PASSWORD");
